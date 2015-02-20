@@ -68,7 +68,6 @@ public class DlgConfiguracion extends javax.swing.JDialog {
         txtPassword3 = new javax.swing.JPasswordField();
         jLabel51 = new javax.swing.JLabel();
         cboTipoBD3 = new javax.swing.JComboBox();
-        chkCrear = new javax.swing.JCheckBox();
         pnlRRHH = new javax.swing.JPanel();
         jLabel40 = new javax.swing.JLabel();
         jLabel41 = new javax.swing.JLabel();
@@ -159,13 +158,6 @@ public class DlgConfiguracion extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 0.1;
         pnlBiosis.add(cboTipoBD3, gridBagConstraints);
-
-        chkCrear.setText("¿Crear tablas?");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 7;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        pnlBiosis.add(chkCrear, gridBagConstraints);
 
         getContentPane().add(pnlBiosis);
 
@@ -346,7 +338,7 @@ public class DlgConfiguracion extends javax.swing.JDialog {
         try {
             this.guardar(rrhh, urlRRHH, cboTipoBD1, txtConexion1, txtUsuario1, txtPassword1);
             this.guardar(biostar, urlBIOSTAR, cboTipoBD2, txtConexion2, txtUsuario2, txtPassword2);
-            this.guardar(biosis, urlBIOSIS, cboTipoBD3, txtConexion3, txtUsuario3, txtPassword3, chkCrear.isSelected());
+            this.guardar(biosis, urlBIOSIS, cboTipoBD3, txtConexion3, txtUsuario3, txtPassword3);
             FormularioUtil.mensajeExito(this, Controlador.MODIFICAR);
             iniciar();
         } catch (Exception e) {
@@ -387,7 +379,7 @@ public class DlgConfiguracion extends javax.swing.JDialog {
         txtPassword.setText(Encriptador.decrypt(password));
     }
 
-    private void guardar(Properties fichero, String urlFichero, JComboBox combo, JTextField txtConexion, JTextField txtUsuario, JTextField txtPassword, boolean selected) {
+    private void guardar(Properties fichero, String urlFichero, JComboBox combo, JTextField txtConexion, JTextField txtUsuario, JTextField txtPassword) {
         int tipoBD = combo.getSelectedIndex() + 1;
 
 //        String driver = ParametrosUtil.obtenerDriver(tipoBD);
@@ -404,39 +396,33 @@ public class DlgConfiguracion extends javax.swing.JDialog {
         fichero.setProperty("usuario", usuario);
         fichero.setProperty("password", Encriptador.encrypt(password));
         fichero.setProperty("tipo", tipoBD + "");
-
-        if (selected) {
-            fichero.setProperty("action", "create");
-        } else {
-            fichero.setProperty("action", "none");
-        }
 
         PropertiesUtil.guardarProperties(fichero, urlFichero);
     }
     private static final Logger LOG = Logger.getLogger(DlgConfiguracion.class.getName());
 
-    private void guardar(Properties fichero, String urlFichero, JComboBox combo, JTextField txtConexion, JTextField txtUsuario, JTextField txtPassword) {
-
-        int tipoBD = combo.getSelectedIndex() + 1;
-
-//        String driver = ParametrosUtil.obtenerDriver(tipoBD);
-        String url = txtConexion.getText();
-        String usuario = txtUsuario.getText();
-        String password = txtPassword.getText();
-
-//        combo.setSelectedIndex(tipoBD - 1);
-        txtConexion.setText(url);
-        txtUsuario.setText(usuario);
-        txtPassword.setText(password);
-
-        fichero.setProperty("url", url);
-        fichero.setProperty("usuario", usuario);
-        fichero.setProperty("password", Encriptador.encrypt(password));
-        fichero.setProperty("tipo", tipoBD + "");
-
-        PropertiesUtil.guardarProperties(fichero, urlFichero);
-
-    }
+//    private void guardar(Properties fichero, String urlFichero, JComboBox combo, JTextField txtConexion, JTextField txtUsuario, JTextField txtPassword) {
+//
+//        int tipoBD = combo.getSelectedIndex() + 1;
+//
+////        String driver = ParametrosUtil.obtenerDriver(tipoBD);
+//        String url = txtConexion.getText();
+//        String usuario = txtUsuario.getText();
+//        String password = txtPassword.getText();
+//
+////        combo.setSelectedIndex(tipoBD - 1);
+//        txtConexion.setText(url);
+//        txtUsuario.setText(usuario);
+//        txtPassword.setText(password);
+//
+//        fichero.setProperty("url", url);
+//        fichero.setProperty("usuario", usuario);
+//        fichero.setProperty("password", Encriptador.encrypt(password));
+//        fichero.setProperty("tipo", tipoBD + "");
+//
+//        PropertiesUtil.guardarProperties(fichero, urlFichero);
+//
+//    }
 
     private void iniciar() {
         int error = 0;
@@ -480,7 +466,6 @@ public class DlgConfiguracion extends javax.swing.JDialog {
     private javax.swing.JComboBox cboTipoBD1;
     private javax.swing.JComboBox cboTipoBD2;
     private javax.swing.JComboBox cboTipoBD3;
-    private javax.swing.JCheckBox chkCrear;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel40;

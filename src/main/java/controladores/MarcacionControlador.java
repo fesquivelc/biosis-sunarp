@@ -82,7 +82,7 @@ public class MarcacionControlador extends Controlador<Marcacion> {
     }
 
     public List<Marcacion> buscarXFechaXHora(Date fechaInicio, Date horaInicio, Date horaFin, int desde, int tamanio) {
-        String jpql = "SELECT m FROM Marcacion m WHERE m.fechaHora = :fechaHoraInicio AND :fechaHoraFin "
+        String jpql = "SELECT m FROM Marcacion m WHERE m.fechaHora BETWEEN :fechaHoraInicio AND :fechaHoraFin "
                 + "ORDER BY m.nombre,m.fechaHora";
         Map<String, Object> mapa = new HashMap<>();
         mapa.put("fechaHoraInicio", FechaUtil.unirFechaHora(fechaInicio, horaInicio));
@@ -209,7 +209,7 @@ public class MarcacionControlador extends Controlador<Marcacion> {
         return conteo;
     }
     public int totalXFechaXHora(Date fechaInicio, Date horaInicio, Date horaFin) {
-        String jpql = "SELECT COUNT(m.id) FROM Marcacion m WHERE m.fechaHora BETWEEN :fechaHoraInicio AND fechaHoraFin ";
+        String jpql = "SELECT COUNT(m.id) FROM Marcacion m WHERE m.fechaHora BETWEEN :fechaHoraInicio AND :fechaHoraFin ";
         Map<String, Object> mapa = new HashMap<>();
         mapa.put("fechaHoraInicio", FechaUtil.unirFechaHora(fechaInicio, horaInicio));
         mapa.put("fechaHoraFin", FechaUtil.unirFechaHora(fechaInicio, horaFin));
